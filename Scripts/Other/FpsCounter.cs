@@ -1,0 +1,36 @@
+﻿using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+
+public class FpsCounter : MonoBehaviour {
+
+	public Text text; 
+
+	private const float FPS_UPDATE_INTERVAL = 0.5f;
+	private float fpsAccum = 0;
+	private int fpsFrames = 0;
+	private float fpsTimeLeft = FPS_UPDATE_INTERVAL;
+	private float fps = 0;
+
+	private void Update() {
+		text.text = "FPS: " + fps.ToString ("f1");
+
+		fpsTimeLeft -= Time.deltaTime;
+		fpsAccum += Time.timeScale / Time.deltaTime;
+		fpsFrames++;
+
+		if (fpsTimeLeft <= 0)
+		{
+			fps = fpsAccum / fpsFrames;
+			fpsTimeLeft = FPS_UPDATE_INTERVAL;
+			fpsAccum = 0;
+			fpsFrames = 0;
+		}
+	}
+
+//	void OnGUI() {
+//		GUILayout.BeginArea(new Rect(25, 25, 500, 500));
+//		GUILayout.Label("FPS: " + fps.ToString("f1"));
+//		GUILayout.EndArea();
+//	}
+}
